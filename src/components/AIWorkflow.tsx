@@ -1,4 +1,3 @@
-import React from 'react';
 import { Bot, Brain, Zap, BarChart3, Cog, ArrowRight } from 'lucide-react';
 
 const AIWorkflow = () => {
@@ -53,12 +52,18 @@ const AIWorkflow = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-b from-black to-gray-900">
+    <section className="py-24 bg-gradient-to-b from-black to-gray-900" data-testid="ai-workflow-section">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-full border border-cyan-500/30 mb-6">
-            <Bot size={16} className="mr-2 text-cyan-400" />
+            <Bot 
+              size={16} 
+              className="mr-2 text-cyan-400" 
+              aria-hidden="true" 
+              role="img"
+              aria-label="AI Bot"
+            />
             <span className="text-sm font-medium text-cyan-300">AI-Powered Excellence</span>
           </div>
           
@@ -81,11 +86,18 @@ const AIWorkflow = () => {
           {aiCapabilities.map((capability, index) => (
             <div 
               key={index}
+              data-testid="capability-card"
               className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-8 hover:border-gray-600 transition-all duration-300"
             >
               <div className="flex items-start space-x-4">
                 <div className="p-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                  <capability.icon size={28} className="text-white" />
+                  <capability.icon 
+                    size={28} 
+                    className="text-white" 
+                    aria-hidden="true" 
+                    role="img"
+                    aria-label={`${capability.title} icon`}
+                  />
                 </div>
                 
                 <div className="flex-1">
@@ -119,7 +131,7 @@ const AIWorkflow = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {workflow.map((step, index) => (
-              <div key={index} className="relative">
+              <div key={index} className="relative" data-testid="workflow-step">
                 {/* Connector Line */}
                 {index < workflow.length - 1 && (
                   <div className="hidden lg:block absolute top-12 left-full w-6 h-0.5 bg-gradient-to-r from-cyan-500 to-transparent z-10"></div>
@@ -144,7 +156,7 @@ const AIWorkflow = () => {
         </div>
 
         {/* AI Tools Showcase */}
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12">
+        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12" data-testid="ai-tools-section">
           <div className="text-center mb-10">
             <h3 className="text-3xl font-bold text-white mb-4">
               AI Tools & Technologies We Master
@@ -171,7 +183,13 @@ const AIWorkflow = () => {
             ].map((tool, index) => (
               <div key={index} className="group">
                 <div className="w-16 h-16 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-xl flex items-center justify-center mb-3 mx-auto group-hover:border-cyan-400 group-hover:scale-110 transition-all duration-300">
-                  <Bot size={24} className="text-cyan-400" />
+                  <Bot 
+                    size={24} 
+                    className="text-cyan-400" 
+                    aria-hidden="true"
+                    role="img"
+                    aria-label={`${tool} icon`}
+                  />
                 </div>
                 <div className="text-sm text-gray-400 group-hover:text-white transition-colors">
                   {tool}
@@ -182,7 +200,7 @@ const AIWorkflow = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center mt-16">
+        <div className="text-center mt-16" data-testid="cta-section">
           <div className="max-w-4xl mx-auto">
             <h3 className="text-3xl font-bold text-white mb-4">
               Ready to Transform Your Business with AI?
@@ -191,9 +209,19 @@ const AIWorkflow = () => {
               Let's explore how AI can revolutionize your workflows, enhance productivity, 
               and drive unprecedented growth for your business.
             </p>
-            <button className="group bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+            <button 
+              className="group bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+              aria-label="Start AI Transformation"
+            >
               Start AI Transformation
-              <ArrowRight size={20} className="inline-block ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight 
+                size={20} 
+                className="ml-2 inline-block group-hover:translate-x-1 transition-transform" 
+                aria-hidden="true"
+                role="img"
+                aria-label="Right arrow"
+                data-testid="arrow-icon"
+              />
             </button>
           </div>
         </div>

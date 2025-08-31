@@ -69,7 +69,11 @@ const FivePillars = () => {
         {/* Pillars Grid */}
         <div className="space-y-16">
           {pillars.map((pillar, index) => (
-            <div key={index} className={`flex flex-col lg:flex-row items-center gap-12 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+            <div 
+              key={index}
+              data-testid={`pillar-${index + 1}`}
+              className={`flex flex-col lg:flex-row items-center gap-12 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+            >
               {/* Icon and Visual */}
               <div className="lg:w-1/3">
                 <div className="relative group">
@@ -89,7 +93,7 @@ const FivePillars = () => {
               <div className="lg:w-2/3">
                 <div className="max-w-2xl">
                   <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                    🧠 {index + 1}. {pillar.title}
+                    {index + 1}. {pillar.title}
                   </h3>
                   
                   <p className={`text-lg font-semibold bg-gradient-to-r ${pillar.color} bg-clip-text text-transparent mb-6`}>

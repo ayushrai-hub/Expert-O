@@ -73,9 +73,9 @@ const JoinForm = () => {
 
   if (isSubmitted) {
     return (
-      <section id="join" className="py-24 bg-gradient-to-b from-gray-900 to-black">
+      <section id="join" className="py-24 bg-gradient-to-b from-gray-900 to-black" data-testid="join-section">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-2xl p-16">
+          <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-2xl p-16" data-testid="success-message">
             <CheckCircle size={80} className="text-purple-400 mx-auto mb-6" />
             <h3 className="text-3xl font-bold text-white mb-4">
               Welcome to the Tribe!
@@ -90,7 +90,7 @@ const JoinForm = () => {
   }
 
   return (
-    <section id="join" className="py-24 bg-gradient-to-b from-gray-900 to-black">
+    <section id="join" className="py-24 bg-gradient-to-b from-gray-900 to-black" data-testid="join-section">
       <div className="max-w-4xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
@@ -111,42 +111,51 @@ const JoinForm = () => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12">
+        <form onSubmit={handleSubmit} className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12" data-testid="join-form">
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-white font-medium mb-3">Full Name *</label>
+              <label htmlFor="name" className="block text-white font-medium mb-3">Full Name *</label>
               <input
+                id="name"
+                name="name"
                 type="text"
                 required
                 className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="Enter your full name"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
+                data-testid="name-input"
               />
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-3">Email Address *</label>
+              <label htmlFor="email" className="block text-white font-medium mb-3">Email Address *</label>
               <input
+                id="email"
+                name="email"
                 type="email"
                 required
                 className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="your@email.com"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
+                data-testid="email-input"
               />
             </div>
           </div>
 
           {/* Role Interest */}
           <div className="mb-8">
-            <label className="block text-white font-medium mb-3">How would you like to join us? *</label>
+            <label htmlFor="role" className="block text-white font-medium mb-3">How would you like to join us? *</label>
             <select
+              id="role"
+              name="role"
               required
               className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
               value={formData.role}
               onChange={(e) => setFormData({...formData, role: e.target.value})}
+              data-testid="role-select"
             >
               <option value="">Select your preferred role</option>
               {roles.map((role, index) => (
@@ -158,7 +167,7 @@ const JoinForm = () => {
           {/* Skills & Expertise */}
           <div className="mb-8">
             <label className="block text-white font-medium mb-4">Your Areas of Expertise *</label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3" data-testid="skills-grid">
               {skillAreas.map((skill, index) => (
                 <label key={index} className="flex items-center">
                   <input
@@ -166,6 +175,7 @@ const JoinForm = () => {
                     className="w-4 h-4 text-purple-500 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
                     checked={formData.skills.includes(skill)}
                     onChange={() => handleSkillToggle(skill)}
+                    data-testid={`skill-${skill.toLowerCase().replace(/\s+/g, '-')}`}
                   />
                   <span className="ml-2 text-gray-300 text-sm">{skill}</span>
                 </label>
@@ -176,133 +186,113 @@ const JoinForm = () => {
           {/* Portfolio & Links */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-white font-medium mb-3">Portfolio/Website URL</label>
+              <label htmlFor="portfolio" className="block text-white font-medium mb-3">Portfolio/Website URL</label>
               <input
+                id="portfolio"
+                name="portfolio"
                 type="url"
                 className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="https://yourportfolio.com"
                 value={formData.portfolio}
                 onChange={(e) => setFormData({...formData, portfolio: e.target.value})}
+                data-testid="portfolio-input"
               />
             </div>
 
             <div>
-              <label className="block text-white font-medium mb-3">LinkedIn Profile *</label>
+              <label htmlFor="linkedin" className="block text-white font-medium mb-3">LinkedIn Profile *</label>
               <input
+                id="linkedin"
+                name="linkedin"
                 type="url"
                 required
                 className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
                 placeholder="https://linkedin.com/in/yourprofile"
                 value={formData.linkedin}
                 onChange={(e) => setFormData({...formData, linkedin: e.target.value})}
+                data-testid="linkedin-input"
               />
             </div>
           </div>
 
-          {/* Experience Level */}
+          {/* Motivation */}
           <div className="mb-8">
-            <label className="block text-white font-medium mb-3">Experience Level *</label>
-            <select
+            <label htmlFor="motivation" className="block text-white font-medium mb-3">What motivates you to join Expert-O? *</label>
+            <textarea
+              id="motivation"
+              name="motivation"
               required
-              className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
-              value={formData.experience}
-              onChange={(e) => setFormData({...formData, experience: e.target.value})}
-            >
-              <option value="">Select your experience level</option>
-              <option value="0-1 years">0-1 years (Entry Level)</option>
-              <option value="2-3 years">2-3 years (Junior)</option>
-              <option value="4-6 years">4-6 years (Mid-Level)</option>
-              <option value="7-10 years">7-10 years (Senior)</option>
-              <option value="10+ years">10+ years (Expert/Lead)</option>
-            </select>
+              rows={3}
+              className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+              placeholder="Tell us what excites you about joining our team..."
+              value={formData.motivation}
+              onChange={(e) => setFormData({...formData, motivation: e.target.value})}
+              data-testid="motivation-textarea"
+            ></textarea>
+          </div>
+
+          {/* Pillars */}
+          <div className="mb-8">
+            <label htmlFor="pillars" className="block text-white font-medium mb-3">Which of our pillars resonates with you most? *</label>
+            <textarea
+              id="pillars"
+              name="pillars"
+              required
+              rows={2}
+              className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+              placeholder="Innovation, Excellence, or Collaboration? Let us know..."
+              value={formData.pillars}
+              onChange={(e) => setFormData({...formData, pillars: e.target.value})}
+              data-testid="pillars-textarea"
+            ></textarea>
           </div>
 
           {/* Availability */}
           <div className="mb-8">
-            <label className="block text-white font-medium mb-3">Availability *</label>
+            <label htmlFor="availability" className="block text-white font-medium mb-3">What's your availability? *</label>
             <select
+              id="availability"
+              name="availability"
               required
               className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-colors"
               value={formData.availability}
               onChange={(e) => setFormData({...formData, availability: e.target.value})}
+              data-testid="availability-select"
             >
               <option value="">Select your availability</option>
-              <option value="Full-time">Full-time (40+ hours/week)</option>
-              <option value="Part-time">Part-time (20-30 hours/week)</option>
-              <option value="Project-based">Project-based (Flexible)</option>
-              <option value="Weekends only">Weekends only</option>
-              <option value="Evening hours">Evening hours only</option>
+              <option value="Full-time">Full-time</option>
+              <option value="Part-time">Part-time</option>
+              <option value="Freelance">Freelance/Project-based</option>
+              <option value="Internship">Internship</option>
             </select>
           </div>
 
-          {/* Motivation */}
+          {/* Experience */}
           <div className="mb-8">
-            <label className="block text-white font-medium mb-3">Why do you want to join Expert-O? *</label>
+            <label htmlFor="experience" className="block text-white font-medium mb-3">Tell us about your experience *</label>
             <textarea
+              id="experience"
+              name="experience"
               required
-              rows="4"
+              rows={4}
               className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
-              placeholder="Tell us what excites you about our mission and how you'd contribute to our polymath collective..."
-              value={formData.motivation}
-              onChange={(e) => setFormData({...formData, motivation: e.target.value})}
-            ></textarea>
-          </div>
-
-          {/* Pillars Alignment */}
-          <div className="mb-8">
-            <label className="block text-white font-medium mb-3">Which of our Five Pillars resonates with you most? *</label>
-            <textarea
-              required
-              rows="3"
-              className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
-              placeholder="Reflect on our pillars: Polymathy as Power, Precision Over Prestige, Deep Trust & Radical Ownership, Speed with Soul, Impact Through Humanity..."
-              value={formData.pillars}
-              onChange={(e) => setFormData({...formData, pillars: e.target.value})}
+              placeholder="Share your professional journey and relevant experience..."
+              value={formData.experience}
+              onChange={(e) => setFormData({...formData, experience: e.target.value})}
+              data-testid="experience-textarea"
             ></textarea>
           </div>
 
           {/* Submit Button */}
           <button
             type="submit"
-            className="group w-full bg-gradient-to-r from-purple-500 to-blue-600 text-white py-4 rounded-full text-lg font-semibold hover:from-purple-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 px-8 rounded-full font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
+            data-testid="submit-button"
           >
-            Join the Tribe
-            <Send size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
+            Submit Application
+            <Send size={20} className="ml-2" />
           </button>
-
-          <p className="text-gray-400 text-sm text-center mt-4">
-            We review applications carefully and respond within 48-72 hours.
-          </p>
         </form>
-
-        {/* Additional Info */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-8 max-w-3xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              What We Look For
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-              <div>
-                <h4 className="text-purple-400 font-semibold mb-2">Mindset</h4>
-                <ul className="text-gray-300 text-sm space-y-1">
-                  <li>• Growth mindset & continuous learning</li>
-                  <li>• Systems thinking across domains</li>
-                  <li>• Radical ownership of outcomes</li>
-                  <li>• Empathy-driven problem solving</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-blue-400 font-semibold mb-2">Skills</h4>
-                <ul className="text-gray-300 text-sm space-y-1">
-                  <li>• Demonstrable expertise in chosen field</li>
-                  <li>• Cross-functional collaboration ability</li>
-                  <li>• AI-tool proficiency (preferred)</li>
-                  <li>• Clear communication skills</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

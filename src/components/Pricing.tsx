@@ -81,6 +81,12 @@ const Pricing = () => {
     console.log('Estimate form submitted:', estimateForm);
   };
 
+  const isYearly = billingType === 'yearly';
+
+  const toggleBillingPeriod = () => {
+    setBillingType(isYearly ? 'monthly' : 'yearly');
+  };
+
   return (
     <section id="pricing" className="py-24 bg-gradient-to-b from-gray-900 to-black">
       <div className="max-w-7xl mx-auto px-6">
@@ -97,18 +103,21 @@ const Pricing = () => {
           
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-4">
-            <span className={`text-sm ${billingType === 'monthly' ? 'text-white' : 'text-gray-400'}`}>
-              Monthly
-            </span>
+            <span className="text-sm text-white">Monthly</span>
             <button
-              onClick={() => setBillingType(billingType === 'monthly' ? 'yearly' : 'monthly')}
+              role="switch"
+              aria-checked={isYearly}
+              aria-label="Toggle billing period"
+              onClick={toggleBillingPeriod}
               className="relative w-14 h-7 bg-gray-700 rounded-full transition-colors focus:outline-none"
             >
-              <div className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-transform ${
-                billingType === 'yearly' ? 'translate-x-7' : 'translate-x-1'
-              }`}></div>
+              <div
+                className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-transform ${
+                  isYearly ? 'translate-x-8' : 'translate-x-1'
+                }`}
+              />
             </button>
-            <span className={`text-sm ${billingType === 'yearly' ? 'text-white' : 'text-gray-400'}`}>
+            <span className="text-sm text-gray-400">
               Yearly
               <span className="text-green-400 text-xs ml-1">(Save 20%)</span>
             </span>
@@ -200,61 +209,71 @@ const Pricing = () => {
             </p>
           </div>
 
-          <form onSubmit={handleEstimateSubmit} className="max-w-2xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-white font-medium mb-3">Project Type</label>
-                <select 
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  value={estimateForm.projectType}
-                  onChange={(e) => setEstimateForm({...estimateForm, projectType: e.target.value})}
-                >
-                  <option value="">Select project type</option>
-                  {projectTypes.map((type, index) => (
-                    <option key={index} value={type}>{type}</option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-white font-medium mb-3">Timeline</label>
-                <select 
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  value={estimateForm.timeline}
-                  onChange={(e) => setEstimateForm({...estimateForm, timeline: e.target.value})}
-                >
-                  <option value="">Select timeline</option>
-                  <option value="1-2 weeks">1-2 weeks (Rush)</option>
-                  <option value="3-4 weeks">3-4 weeks (Standard)</option>
-                  <option value="2-3 months">2-3 months (Complex)</option>
-                  <option value="3+ months">3+ months (Enterprise)</option>
-                </select>
-              </div>
-
-              <div className="md:col-span-2">
-                <label className="block text-white font-medium mb-3">Budget Range</label>
-                <select 
-                  className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                  value={estimateForm.budget}
-                  onChange={(e) => setEstimateForm({...estimateForm, budget: e.target.value})}
-                >
-                  <option value="">Select budget range</option>
-                  <option value="<50k">Under ₹50,000</option>
-                  <option value="50k-1L">₹50,000 - ₹1,00,000</option>
-                  <option value="1L-3L">₹1,00,000 - ₹3,00,000</option>
-                  <option value="3L-5L">₹3,00,000 - ₹5,00,000</option>
-                  <option value="5L+">₹5,00,000+</option>
-                </select>
-              </div>
+          <form onSubmit={handleEstimateSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="projectType" className="block text-sm font-medium text-gray-300 mb-2">
+                Project Type
+              </label>
+              <select
+                id="projectType"
+                value={estimateForm.projectType}
+                onChange={(e) => setEstimateForm({...estimateForm, projectType: e.target.value})}
+                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="">Select project type</option>
+                {projectTypes.map((type, index) => (
+                  <option key={index} value={type}>{type}</option>
+                ))}
+              </select>
             </div>
 
-            <button 
-              type="submit"
-              className="w-full mt-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-            >
-              Get Custom Estimate
-            </button>
+            <div>
+              <label htmlFor="timeline" className="block text-sm font-medium text-gray-300 mb-2">
+                Timeline
+              </label>
+              <select 
+                id="timeline"
+                value={estimateForm.timeline}
+                onChange={(e) => setEstimateForm({...estimateForm, timeline: e.target.value})}
+                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="">Select timeline</option>
+                <option value="1-2 weeks">1-2 weeks (Rush)</option>
+                <option value="3-4 weeks">3-4 weeks (Standard)</option>
+                <option value="2-3 months">2-3 months (Complex)</option>
+                <option value="3+ months">3+ months (Enterprise)</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-2">
+                Budget Range
+              </label>
+              <select 
+                id="budget"
+                value={estimateForm.budget}
+                onChange={(e) => setEstimateForm({...estimateForm, budget: e.target.value})}
+                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                required
+              >
+                <option value="">Select budget range</option>
+                <option value="<50k">Under ₹50,000</option>
+                <option value="50k-1L">₹50,000 - ₹1,00,000</option>
+                <option value="1L-3L">₹1,00,000 - ₹3,00,000</option>
+                <option value="3L-5L">₹3,00,000 - ₹5,00,000</option>
+                <option value="5L+">₹5,00,000+</option>
+              </select>
+            </div>
           </form>
+
+          <button 
+            type="submit"
+            className="w-full mt-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+          >
+            Get Custom Estimate
+          </button>
         </div>
 
         {/* Free Discovery Call CTA */}
