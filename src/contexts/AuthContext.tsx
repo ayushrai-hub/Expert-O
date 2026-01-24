@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import { AuthContextType, AuthState, LoginCredentials, RegisterData, User, Role } from '../types/auth';
+import { authAPI } from '../services/api';
 
 // Mock user data for development
 const mockUsers: User[] = [
@@ -125,22 +126,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'LOGIN_START' });
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const user = mockUsers.find(u => u.email === credentials.email);
+      const response = await authAPI.login(credentials.email, credentials.password);
       
-      if (!user) {
-        throw new Error('Invalid email or password');
+      if (!response.success) {
+        throw new Error(response.message);
       }
 
-      // In a real app, you'd verify the password here
-      if (credentials.password !== 'password') {
-        throw new Error('Invalid email or password');
-      }
-
-      localStorage.setItem('expert-o-user', JSON.stringify(user));
-      dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      localStorage.setItem('expert-o-user', JSON.stringify(response.data.user));
+      localStorage.setItem('expert-o-token', response.data.token);
+      dispatch({ type: 'LOGIN_SUCCESS', payload: response.data.user });
     } catch (error) {
       dispatch({ 
         type: 'LOGIN_FAILURE', 
@@ -153,30 +147,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'REGISTER_START' });
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Check if user already exists
-      const existingUser = mockUsers.find(u => u.email === data.email);
-      if (existingUser) {
-        throw new Error('User with this email already exists');
+      const response = await authAPI.register(data.name, data.email, data.password, data.role);
+      
+      if (!response.success) {
+        throw new Error(response.message);
       }
 
-      // Create new user
-      const newUser: User = {
-        id: Date.now().toString(),
-        email: data.email,
-        name: data.name,
-        role: data.role,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      // In a real app, you'd save to database here
-      mockUsers.push(newUser);
-
-      localStorage.setItem('expert-o-user', JSON.stringify(newUser));
-      dispatch({ type: 'REGISTER_SUCCESS', payload: newUser });
+      localStorage.setItem('expert-o-user', JSON.stringify(response.data.user));
+      localStorage.setItem('expert-o-token', response.data.token);
+      dispatch({ type: 'REGISTER_SUCCESS', payload: response.data.user });
     } catch (error) {
       dispatch({ 
         type: 'REGISTER_FAILURE', 
@@ -190,6 +169,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     dispatch({ type: 'LOGOUT' });
   };
 
+  const resetPassword = async (email: string): Promise<{ error: Error | null }> => {
+    try {
+      const response = await authAPI.forgotPassword(email);
+      
+      if (!response.success) {
+        throw new Error(response.message);
+      }
+
+      return { error: null };
+    } catch (error) {
+      return {
+        error: error instanceof Error ? error : new Error('Password reset failed')
+      };
+    }
+  };
+
   const clearError = (): void => {
     dispatch({ type: 'CLEAR_ERROR' });
   };
@@ -198,6 +193,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ...state,
     login,
     register,
+    resetPassword,
     logout,
     clearError
   };

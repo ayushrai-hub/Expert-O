@@ -33,7 +33,6 @@ describe('Login Component', () => {
   it('shows validation errors for invalid email', async () => {
     renderWithProviders(<Login />);
     
-    const emailInput = screen.getByLabelText(/email address/i);
     const submitButton = screen.getByRole('button', { name: /sign in/i });
     
     // Test with empty email field

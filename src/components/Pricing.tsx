@@ -26,7 +26,7 @@ const Pricing = () => {
         "Email support"
       ],
       popular: false,
-      color: "from-blue-500 to-cyan-600"
+      color: "from-gray-600 to-gray-400"
     },
     {
       name: "Growth Engine",
@@ -44,7 +44,7 @@ const Pricing = () => {
         "Monthly strategy calls"
       ],
       popular: true,
-      color: "from-purple-500 to-pink-600"
+      color: "from-gray-600 to-gray-400"
     },
     {
       name: "Enterprise Elite",
@@ -62,7 +62,7 @@ const Pricing = () => {
         "White-label solutions"
       ],
       popular: false,
-      color: "from-yellow-500 to-orange-600"
+      color: "from-gray-600 to-gray-400"
     }
   ];
 
@@ -75,7 +75,7 @@ const Pricing = () => {
     "Full Digital Transformation"
   ];
 
-  const handleEstimateSubmit = (e) => {
+  const handleEstimateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle estimate form submission
     console.log('Estimate form submitted:', estimateForm);
@@ -88,108 +88,108 @@ const Pricing = () => {
   };
 
   return (
-    <section id="pricing" className="py-24 bg-gradient-to-b from-gray-900 to-black">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="pricing" className="section bg-white">
+      <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Pricing Models
-            </span>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+            Pricing Models
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
-            Transparent pricing that scales with your ambition. Choose the plan that fits your vision.
+          <p className="text-base text-gray-600 max-w-2xl mx-auto mb-8">
+            Transparent pricing that scales with your ambition.
           </p>
           
           {/* Billing Toggle */}
           <div className="flex items-center justify-center space-x-4">
-            <span className="text-sm text-white">Monthly</span>
+            <span className="text-sm text-gray-600 font-medium">Monthly</span>
             <button
               role="switch"
               aria-checked={isYearly}
               aria-label="Toggle billing period"
               onClick={toggleBillingPeriod}
-              className="relative w-14 h-7 bg-gray-700 rounded-full transition-colors focus:outline-none"
+              className={`relative w-14 h-7 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-gray-400 ${
+                isYearly ? 'bg-gray-900' : 'bg-gray-200'
+              }`}
             >
               <div
-                className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-transform ${
+                className={`absolute top-1 w-5 h-5 bg-white rounded-full shadow-md transition-transform ${
                   isYearly ? 'translate-x-8' : 'translate-x-1'
                 }`}
               />
             </button>
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-gray-600 font-medium">
               Yearly
-              <span className="text-green-400 text-xs ml-1">(Save 20%)</span>
+              <span className="text-green-600 text-sm ml-2">(Save 20%)</span>
             </span>
           </div>
         </div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           {pricingPlans.map((plan, index) => (
             <div 
               key={index}
-              className={`relative bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border rounded-2xl p-8 transition-all duration-300 hover:transform hover:scale-105 ${
+              className={`relative ${
                 plan.popular 
-                  ? 'border-purple-500 shadow-2xl shadow-purple-500/20' 
-                  : 'border-gray-700 hover:border-gray-600'
-              }`}
+                  ? 'card-elevated border-2 border-gray-900 scale-105' 
+                  : 'card'
+              } p-8 transition-all hover:scale-105`}
             >
               {plan.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-6 py-2 rounded-full text-sm font-bold">
+                  <div className="bg-gradient-to-r from-gray-900 to-gray-700 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow-medium">
                     MOST POPULAR
                   </div>
                 </div>
               )}
 
               {/* Icon */}
-              <div className={`inline-flex p-3 bg-gradient-to-r ${plan.color} rounded-xl mb-6`}>
-                <plan.icon size={32} className="text-white" />
+              <div className="inline-flex p-3 bg-gray-100 rounded-xl mb-5">
+                <plan.icon size={28} className="text-gray-700" />
               </div>
 
               {/* Plan Name */}
-              <h3 className="text-2xl font-bold text-white mb-3">
+              <h3 className="text-xl font-bold text-gray-900 mb-3">
                 {plan.name}
               </h3>
 
               {/* Price */}
-              <div className="mb-6">
+              <div className="mb-5">
                 <div className="flex items-baseline">
-                  <span className="text-4xl font-bold text-white">
+                  <span className="text-3xl font-bold text-gray-900">
                     ₹{billingType === 'monthly' ? plan.price.monthly.toLocaleString() : plan.price.yearly.toLocaleString()}
                   </span>
-                  <span className="text-gray-400 ml-2">
-                    /{billingType === 'monthly' ? 'month' : 'year'}
+                  <span className="text-gray-500 text-sm ml-2">
+                    /{billingType === 'monthly' ? 'mo' : 'yr'}
                   </span>
                 </div>
                 {billingType === 'yearly' && (
-                  <div className="text-sm text-green-400 mt-1">
+                  <div className="text-sm text-green-600 mt-2 font-medium">
                     Save ₹{(plan.price.monthly * 12 - plan.price.yearly).toLocaleString()} annually
                   </div>
                 )}
               </div>
 
               {/* Description */}
-              <p className="text-gray-300 mb-8">
+              <p className="text-gray-600 text-sm mb-6">
                 {plan.description}
               </p>
 
               {/* Features */}
-              <ul className="space-y-4 mb-8">
+              <ul className="space-y-3 mb-8">
                 {plan.features.map((feature, featureIndex) => (
                   <li key={featureIndex} className="flex items-start">
-                    <Check size={20} className="text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-300">{feature}</span>
+                    <Check size={18} className="text-green-600 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-900 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               {/* CTA Button */}
-              <button className={`w-full py-4 rounded-full font-semibold transition-all duration-300 ${
+              <button className={`w-full py-3 rounded-lg text-base font-semibold transition-all ${
                 plan.popular
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white hover:from-purple-600 hover:to-pink-700 shadow-lg hover:shadow-purple-500/25'
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  ? 'btn-primary'
+                  : 'btn-secondary'
               }`}>
                 Get Started
               </button>
@@ -198,27 +198,29 @@ const Pricing = () => {
         </div>
 
         {/* Custom Estimate Generator */}
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12">
+        <div className="card-elevated p-10 md:p-12 max-w-4xl mx-auto">
           <div className="text-center mb-10">
-            <Calculator size={48} className="text-blue-400 mx-auto mb-4" />
-            <h3 className="text-3xl font-bold text-white mb-4">
+            <div className="inline-flex p-4 bg-gray-100 rounded-2xl mb-5">
+              <Calculator size={40} className="text-gray-700" />
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
               Custom Project Estimator
             </h3>
-            <p className="text-gray-300">
+            <p className="text-gray-600 text-base">
               Get a personalized quote based on your specific requirements
             </p>
           </div>
 
           <form onSubmit={handleEstimateSubmit} className="space-y-6">
             <div>
-              <label htmlFor="projectType" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="projectType" className="block text-sm font-semibold text-gray-900 mb-2">
                 Project Type
               </label>
               <select
                 id="projectType"
                 value={estimateForm.projectType}
                 onChange={(e) => setEstimateForm({...estimateForm, projectType: e.target.value})}
-                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                className="input"
                 required
               >
                 <option value="">Select project type</option>
@@ -229,14 +231,14 @@ const Pricing = () => {
             </div>
 
             <div>
-              <label htmlFor="timeline" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="timeline" className="block text-sm font-semibold text-gray-900 mb-2">
                 Timeline
               </label>
               <select 
                 id="timeline"
                 value={estimateForm.timeline}
                 onChange={(e) => setEstimateForm({...estimateForm, timeline: e.target.value})}
-                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                className="input"
                 required
               >
                 <option value="">Select timeline</option>
@@ -248,14 +250,14 @@ const Pricing = () => {
             </div>
 
             <div>
-              <label htmlFor="budget" className="block text-sm font-medium text-gray-300 mb-2">
+              <label htmlFor="budget" className="block text-sm font-semibold text-gray-900 mb-2">
                 Budget Range
               </label>
               <select 
                 id="budget"
                 value={estimateForm.budget}
                 onChange={(e) => setEstimateForm({...estimateForm, budget: e.target.value})}
-                className="w-full p-4 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                className="input"
                 required
               >
                 <option value="">Select budget range</option>
@@ -266,27 +268,29 @@ const Pricing = () => {
                 <option value="5L+">₹5,00,000+</option>
               </select>
             </div>
-          </form>
 
-          <button 
-            type="submit"
-            className="w-full mt-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
-          >
-            Get Custom Estimate
-          </button>
+            <button 
+              type="submit"
+              className="w-full bg-gray-900 text-white py-3.5 rounded-lg text-base font-semibold hover:shadow-strong transition-all duration-300"
+            >
+              Get Custom Estimate
+            </button>
+          </form>
         </div>
 
         {/* Free Discovery Call CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12 max-w-4xl mx-auto">
-            <Phone size={48} className="text-green-400 mx-auto mb-6" />
-            <h3 className="text-3xl font-bold text-white mb-4">
+          <div className="card-elevated p-10 md:p-12 max-w-4xl mx-auto">
+            <div className="inline-flex p-4 bg-green-100 rounded-2xl mb-5">
+              <Phone size={40} className="text-green-600" />
+            </div>
+            <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
               Not Sure Which Plan Fits?
             </h3>
-            <p className="text-gray-300 text-lg mb-8">
+            <p className="text-gray-600 text-base mb-8 max-w-2xl mx-auto">
               Book a free 30-minute discovery call with our polymaths to discuss your vision and find the perfect solution.
             </p>
-            <button className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105">
+            <button className="bg-gray-900 text-white px-8 py-3.5 rounded-lg text-base font-semibold hover:shadow-strong transition-all duration-300">
               Book Free Discovery Call
             </button>
           </div>

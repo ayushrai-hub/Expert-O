@@ -4,6 +4,8 @@ export enum Role {
   TALENT = 'TALENT'
 }
 
+export type UserRole = Role;
+
 export enum ProjectStatus {
   DRAFT = 'DRAFT',
   ACTIVE = 'ACTIVE',
@@ -51,6 +53,15 @@ export interface AuthState {
   error: string | null;
 }
 
+export interface AuthResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: User;
+    token: string;
+  };
+}
+
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -66,6 +77,7 @@ export interface RegisterData {
 export interface AuthContextType extends AuthState {
   login: (credentials: LoginCredentials) => Promise<void>;
   register: (data: RegisterData) => Promise<void>;
+  resetPassword: (email: string) => Promise<{ error: Error | null }>;
   logout: () => void;
   clearError: () => void;
 }

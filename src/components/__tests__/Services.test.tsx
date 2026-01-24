@@ -25,14 +25,7 @@ describe('Services Component', () => {
     { id: 'ai', label: 'AI Solutions' }
   ];
 
-  const sampleService = {
-    icon: 'Globe',
-    title: 'Website Development',
-    description: 'Modern, responsive websites built with cutting-edge technologies and optimized for performance and user experience.',
-    category: 'development',
-    workflow: 'Discovery → Design → Development → Testing → Launch',
-    color: 'from-blue-400 to-cyan-500'
-  };
+  // Removed unused sampleService variable
 
   // Test case: Renders the main section with correct attributes
   it('renders the main section with correct attributes', () => {

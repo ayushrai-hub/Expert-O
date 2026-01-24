@@ -3,14 +3,10 @@ import {
   User, 
   Edit, 
   Save, 
-  X, 
   Plus, 
   Trash2, 
   Star, 
   Calendar, 
-  MapPin, 
-  Globe, 
-  Mail,
   Phone,
   Linkedin,
   Github,
@@ -139,15 +135,15 @@ const TalentProfile = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">Profile Management</h1>
-          <p className="text-gray-400 mt-1">Manage your professional profile and showcase your expertise</p>
+          <h1 className="text-3xl font-bold text-gray-900">Profile Management</h1>
+          <p className="text-gray-600 mt-1">Manage your professional profile and showcase your expertise</p>
         </div>
         <button
           onClick={() => setIsEditing(!isEditing)}
           className={`flex items-center px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
             isEditing
-              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white hover:from-green-600 hover:to-emerald-700'
-              : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700'
+              ? 'bg-green-600 text-white hover:bg-green-700'
+              : 'bg-gray-900 text-white hover:bg-gray-800'
           }`}
         >
           {isEditing ? <Save size={20} className="mr-2" /> : <Edit size={20} className="mr-2" />}
@@ -157,66 +153,66 @@ const TalentProfile = () => {
 
       {/* Profile Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+        <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm font-medium">Projects Completed</p>
-              <p className="text-2xl font-bold text-white mt-1">24</p>
+              <p className="text-gray-600 text-sm font-medium">Projects Completed</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">24</p>
             </div>
-            <div className="p-3 bg-green-500/20 rounded-lg">
-              <CheckCircle size={24} className="text-green-400" />
+            <div className="p-3 bg-green-100 rounded-lg">
+              <CheckCircle size={24} className="text-green-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+        <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm font-medium">Client Rating</p>
-              <p className="text-2xl font-bold text-white mt-1">4.9</p>
+              <p className="text-gray-600 text-sm font-medium">Client Rating</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">4.9</p>
             </div>
-            <div className="p-3 bg-yellow-500/20 rounded-lg">
-              <Star size={24} className="text-yellow-400" />
+            <div className="p-3 bg-yellow-100 rounded-lg">
+              <Star size={24} className="text-yellow-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+        <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm font-medium">Skills</p>
-              <p className="text-2xl font-bold text-white mt-1">{skills.length}</p>
+              <p className="text-gray-600 text-sm font-medium">Skills</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">{skills.length}</p>
             </div>
-            <div className="p-3 bg-blue-500/20 rounded-lg">
-              <Award size={24} className="text-blue-400" />
+            <div className="p-3 bg-blue-100 rounded-lg">
+              <Award size={24} className="text-blue-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+        <div className="card">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm font-medium">Hourly Rate</p>
-              <p className="text-2xl font-bold text-white mt-1">{profile.hourlyRate}</p>
+              <p className="text-gray-600 text-sm font-medium">Hourly Rate</p>
+              <p className="text-2xl font-bold text-gray-900 mt-1">{profile.hourlyRate}</p>
             </div>
-            <div className="p-3 bg-purple-500/20 rounded-lg">
-              <Clock size={24} className="text-purple-400" />
+            <div className="p-3 bg-purple-100 rounded-lg">
+              <Clock size={24} className="text-purple-600" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-2">
+      <div className="card p-2">
         <div className="flex space-x-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'profile' | 'skills' | 'portfolio' | 'availability')}
               className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                  ? 'bg-gray-900 text-white'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <tab.icon size={18} className="mr-2" />
@@ -227,87 +223,87 @@ const TalentProfile = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+      <div className="card">
         {activeTab === 'profile' && (
           <div className="space-y-6">
             {/* Basic Info */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">Full Name</label>
+                <label className="block text-gray-700 font-medium mb-2">Full Name</label>
                 <input
                   type="text"
                   value={profile.name}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">Email</label>
+                <label className="block text-gray-700 font-medium mb-2">Email</label>
                 <input
                   type="email"
                   value={profile.email}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">Phone</label>
+                <label className="block text-gray-700 font-medium mb-2">Phone</label>
                 <input
                   type="tel"
                   value={profile.phone}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">Location</label>
+                <label className="block text-gray-700 font-medium mb-2">Location</label>
                 <input
                   type="text"
                   value={profile.location}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
             </div>
 
             {/* Bio */}
             <div>
-              <label className="block text-white font-medium mb-2">Bio</label>
+              <label className="block text-gray-700 font-medium mb-2">Bio</label>
               <textarea
                 value={profile.bio}
                 disabled={!isEditing}
                 rows={4}
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500 resize-none"
+                className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400 resize-none"
               />
             </div>
 
             {/* Social Links */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">Website</label>
+                <label className="block text-gray-700 font-medium mb-2">Website</label>
                 <input
                   type="url"
                   value={profile.website}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">LinkedIn</label>
+                <label className="block text-gray-700 font-medium mb-2">LinkedIn</label>
                 <input
                   type="url"
                   value={profile.linkedin}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">GitHub</label>
+                <label className="block text-gray-700 font-medium mb-2">GitHub</label>
                 <input
                   type="url"
                   value={profile.github}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
             </div>
@@ -315,30 +311,30 @@ const TalentProfile = () => {
             {/* Professional Info */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div>
-                <label className="block text-white font-medium mb-2">Experience</label>
+                <label className="block text-gray-700 font-medium mb-2">Experience</label>
                 <input
                   type="text"
                   value={profile.experience}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">Education</label>
+                <label className="block text-gray-700 font-medium mb-2">Education</label>
                 <input
                   type="text"
                   value={profile.education}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-white font-medium mb-2">Hourly Rate</label>
+                <label className="block text-gray-700 font-medium mb-2">Hourly Rate</label>
                 <input
                   type="text"
                   value={profile.hourlyRate}
                   disabled={!isEditing}
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-900 disabled:opacity-50 focus:outline-none focus:border-gray-400"
                 />
               </div>
             </div>
@@ -348,9 +344,9 @@ const TalentProfile = () => {
         {activeTab === 'skills' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white">Skills & Expertise</h3>
+              <h3 className="text-xl font-bold text-gray-900">Skills & Expertise</h3>
               {isEditing && (
-                <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+                <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300">
                   <Plus size={16} className="mr-2" />
                   Add Skill
                 </button>
@@ -363,15 +359,15 @@ const TalentProfile = () => {
 
               return (
                 <div key={category} className="space-y-4">
-                  <h4 className="text-lg font-semibold text-white">{category}</h4>
+                  <h4 className="text-lg font-semibold text-gray-900">{category}</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {categorySkills.map((skill) => (
-                      <div key={skill.id} className="bg-gray-700/50 rounded-lg p-4">
+                      <div key={skill.id} className="bg-gray-50 rounded-lg p-4">
                         <div className="flex items-center justify-between mb-2">
-                          <span className="text-white font-medium">{skill.name}</span>
-                          <span className="text-gray-400 text-sm">{skill.level}%</span>
+                          <span className="text-gray-900 font-medium">{skill.name}</span>
+                          <span className="text-gray-600 text-sm">{skill.level}%</span>
                         </div>
-                        <div className="w-full bg-gray-600 rounded-full h-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
                             className={`bg-gradient-to-r ${getSkillColor(skill.level)} h-2 rounded-full transition-all duration-300`}
                             style={{ width: `${skill.level}%` }}
@@ -389,9 +385,9 @@ const TalentProfile = () => {
         {activeTab === 'portfolio' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white">Portfolio Projects</h3>
+              <h3 className="text-xl font-bold text-gray-900">Portfolio Projects</h3>
               {isEditing && (
-                <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+                <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-all duration-300">
                   <Plus size={16} className="mr-2" />
                   Add Project
                 </button>
@@ -400,28 +396,28 @@ const TalentProfile = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {portfolio.map((item) => (
-                <div key={item.id} className="bg-gray-700/50 rounded-xl overflow-hidden">
-                  <div className="h-48 bg-gradient-to-br from-gray-600 to-gray-700 flex items-center justify-center">
+                <div key={item.id} className="card">
+                  <div className="h-48 bg-gray-100 flex items-center justify-center">
                     <BookOpen size={48} className="text-gray-400" />
                   </div>
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-3">
-                      <h4 className="text-lg font-bold text-white">{item.title}</h4>
+                      <h4 className="text-lg font-bold text-gray-900">{item.title}</h4>
                       {isEditing && (
                         <div className="flex space-x-2">
-                          <button className="p-1 text-gray-400 hover:text-white">
+                          <button className="p-1 text-gray-500 hover:text-gray-900">
                             <Edit size={16} />
                           </button>
-                          <button className="p-1 text-red-400 hover:text-red-300">
+                          <button className="p-1 text-red-600 hover:text-red-700">
                             <Trash2 size={16} />
                           </button>
                         </div>
                       )}
                     </div>
-                    <p className="text-gray-400 text-sm mb-4">{item.description}</p>
+                    <p className="text-gray-600 text-sm mb-4">{item.description}</p>
                     <div className="flex flex-wrap gap-2 mb-4">
                       {item.technologies.map((tech) => (
-                        <span key={tech} className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
+                        <span key={tech} className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
                           {tech}
                         </span>
                       ))}
@@ -435,7 +431,7 @@ const TalentProfile = () => {
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center text-blue-400 hover:text-blue-300 text-sm"
+                          className="flex items-center text-blue-600 hover:text-blue-700 text-sm"
                         >
                           <ExternalLink size={16} className="mr-1" />
                           View Project
@@ -452,23 +448,23 @@ const TalentProfile = () => {
         {activeTab === 'availability' && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-bold text-white">Availability Schedule</h3>
-              <p className="text-gray-400 text-sm">Set your working hours and availability</p>
+              <h3 className="text-xl font-bold text-gray-900">Availability Schedule</h3>
+              <p className="text-gray-600 text-sm">Set your working hours and availability</p>
             </div>
 
             <div className="space-y-4">
               {availability.map((day) => (
-                <div key={day.day} className="flex items-center justify-between p-4 bg-gray-700/50 rounded-lg">
+                <div key={day.day} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-4">
-                    <span className="text-white font-medium w-24">{day.day}</span>
+                    <span className="text-gray-900 font-medium w-24">{day.day}</span>
                     <div className="flex items-center space-x-2">
                       <input
                         type="checkbox"
                         checked={day.available}
                         disabled={!isEditing}
-                        className="w-4 h-4 text-blue-500 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500"
                       />
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-gray-600 text-sm">
                         {day.available ? 'Available' : 'Not Available'}
                       </span>
                     </div>
@@ -478,7 +474,7 @@ const TalentProfile = () => {
                       type="text"
                       value={day.hours}
                       disabled={!isEditing || !day.available}
-                      className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm disabled:opacity-50 focus:outline-none focus:border-blue-500"
+                      className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 text-sm disabled:opacity-50 focus:outline-none focus:border-gray-400"
                     />
                   </div>
                 </div>

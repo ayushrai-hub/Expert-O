@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import AIWorkflow from '../AIWorkflow';
-import { Bot, Brain, Zap, BarChart3, Cog, ArrowRight } from 'lucide-react';
 
 /**
  * Test suite for the AIWorkflow component

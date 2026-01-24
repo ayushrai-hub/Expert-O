@@ -189,7 +189,7 @@ describe('JoinForm Component', () => {
   // Test case: Success state is shown after form submission
   it('shows success state after form submission', async () => {
     // Mock the form submission
-    const { container } = render(<JoinForm />);
+    render(<JoinForm />);
     
     // Fill in required fields
     fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'John Doe' } });

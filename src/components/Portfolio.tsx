@@ -82,31 +82,29 @@ const Portfolio = () => {
     : projects.filter(project => project.category === activeFilter);
 
   return (
-    <section id="portfolio" className="py-24 bg-gradient-to-b from-gray-900 to-black">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="portfolio" className="section bg-white">
+      <div className="section-container">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              Our Portfolio
-            </span>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+            Our Portfolio
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Real impact, measurable results. See how our polymathic approach transforms businesses across industries.
+          <p className="text-base text-gray-600 max-w-2xl mx-auto">
+            Real impact, measurable results across industries.
           </p>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <Filter size={20} className="text-gray-400 mr-2 mt-3" />
+        <div className="flex flex-wrap justify-center items-center gap-3 mb-12">
+          <Filter size={18} className="text-gray-500" />
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => setActiveFilter(category.id)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+              className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeFilter === category.id
-                  ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white'
-                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  ? 'bg-gray-900 text-white shadow-medium'
+                  : 'btn-secondary'
               }`}
             >
               {category.label}
@@ -115,57 +113,59 @@ const Portfolio = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredProjects.map((project, index) => (
             <div 
               key={index}
-              className="group bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl overflow-hidden hover:border-gray-600 transition-all duration-300 hover:transform hover:scale-105"
+              className="card group overflow-hidden hover:shadow-strong transition-all"
             >
               {/* Project Image */}
-              <div className="relative overflow-hidden">
+              <div className="relative overflow-hidden h-48">
                 <img 
                   src={project.image} 
                   alt={project.title}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute top-4 right-4">
-                  <ExternalLink size={20} className="text-white opacity-70 group-hover:opacity-100 transition-opacity" />
+                  <div className="p-2 bg-white/20 backdrop-blur-sm rounded-lg">
+                    <ExternalLink size={18} className="text-white" />
+                  </div>
                 </div>
               </div>
 
               {/* Project Content */}
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors">
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-gray-900 mb-3">
                   {project.title}
                 </h3>
                 
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-600 text-sm mb-5">
                   {project.description}
                 </p>
 
                 {/* Problem-Solution-Result */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-3 mb-5">
                   <div>
-                    <div className="text-sm font-semibold text-red-400 mb-1">PROBLEM</div>
-                    <div className="text-sm text-gray-400">{project.problem}</div>
+                    <div className="text-sm font-semibold text-red-600 mb-1">Problem</div>
+                    <div className="text-sm text-gray-500">{project.problem}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-blue-400 mb-1">SOLUTION</div>
-                    <div className="text-sm text-gray-400">{project.solution}</div>
+                    <div className="text-sm font-semibold text-gray-700 mb-1">Solution</div>
+                    <div className="text-sm text-gray-500">{project.solution}</div>
                   </div>
                   <div>
-                    <div className="text-sm font-semibold text-green-400 mb-1">RESULT</div>
-                    <div className="text-sm text-gray-400">{project.result}</div>
+                    <div className="text-sm font-semibold text-green-600 mb-1">Result</div>
+                    <div className="text-sm text-gray-500">{project.result}</div>
                   </div>
                 </div>
 
                 {/* Tags */}
-                <div className="flex flex-wrap gap-2 mb-6">
+                <div className="flex flex-wrap gap-2 mb-5">
                   {project.tags.map((tag, tagIndex) => (
                     <span 
                       key={tagIndex}
-                      className="px-3 py-1 bg-gray-700 text-gray-300 text-xs rounded-full"
+                      className="px-3 py-1 bg-gray-100 text-gray-900 text-xs rounded-lg border border-gray-200"
                     >
                       {tag}
                     </span>
@@ -173,9 +173,9 @@ const Portfolio = () => {
                 </div>
 
                 {/* CTA */}
-                <button className="flex items-center text-blue-400 font-medium hover:text-blue-300 transition-colors group-hover:translate-x-2 transition-transform duration-300">
+                <button className="flex items-center text-gray-700 text-sm font-semibold hover:text-gray-900 transition-colors group">
                   View Case Study
-                  <ArrowRight size={16} className="ml-2" />
+                  <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                 </button>
               </div>
             </div>
@@ -184,14 +184,14 @@ const Portfolio = () => {
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-2xl p-12 max-w-4xl mx-auto">
-            <h3 className="text-3xl font-bold text-white mb-4">
+          <div className="card-elevated p-10 max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">
               Ready to Be Our Next Success Story?
             </h3>
-            <p className="text-gray-300 text-lg mb-8">
-              Let's create something extraordinary together. Your vision + our execution = transformative results.
+            <p className="text-gray-600 text-base mb-6">
+              Let's create something extraordinary together.
             </p>
-            <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+            <button className="btn-primary px-8 py-3 text-base">
               Start Your Project
             </button>
           </div>

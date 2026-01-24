@@ -11,14 +11,10 @@ import {
   Smile,
   User,
   CheckCircle,
-  Clock,
   AlertCircle,
   Plus,
   Filter,
-  Archive,
-  Trash2,
-  Edit,
-  Star
+  Archive
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -59,7 +55,7 @@ const CommunicationSystem = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Mock chats data
-  const [chats, setChats] = useState<Chat[]>([
+  const [chats] = useState<Chat[]>([
     {
       id: '1',
       name: 'John Client',
@@ -131,7 +127,7 @@ const CommunicationSystem = () => {
   ]);
 
   // Mock notifications data
-  const [notifications, setNotifications] = useState<Notification[]>([
+  const [notifications] = useState<Notification[]>([
     {
       id: '1',
       title: 'Project Update',
@@ -191,13 +187,13 @@ const CommunicationSystem = () => {
   const getNotificationIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle size={16} className="text-green-400" />;
+        return <CheckCircle size={16} className="text-green-600" />;
       case 'warning':
-        return <AlertCircle size={16} className="text-yellow-400" />;
+        return <AlertCircle size={16} className="text-yellow-600" />;
       case 'error':
-        return <AlertCircle size={16} className="text-red-400" />;
+        return <AlertCircle size={16} className="text-red-600" />;
       default:
-        return <Bell size={16} className="text-blue-400" />;
+        return <Bell size={16} className="text-blue-600" />;
     }
   };
 
@@ -206,19 +202,19 @@ const CommunicationSystem = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">Communication Center</h1>
-          <p className="text-gray-400 mt-1">Stay connected with clients, team members, and project updates</p>
+          <h1 className="text-3xl font-bold text-gray-900">Communication Center</h1>
+          <p className="text-gray-600 mt-1">Stay connected with clients, team members, and project updates</p>
         </div>
         <div className="flex items-center space-x-4">
           <div className="relative">
-            <Bell size={20} className="text-gray-400" />
+            <Bell size={20} className="text-gray-500" />
             {unreadNotifications.length > 0 && (
               <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 {unreadNotifications.length}
               </span>
             )}
           </div>
-          <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+          <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
             <Plus size={16} className="mr-2" />
             New Chat
           </button>
@@ -226,14 +222,14 @@ const CommunicationSystem = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-2">
+      <div className="card p-2">
         <div className="flex space-x-1">
           <button
             onClick={() => setActiveTab('chats')}
             className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
               activeTab === 'chats'
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}
           >
             <MessageSquare size={18} className="mr-2" />
@@ -248,8 +244,8 @@ const CommunicationSystem = () => {
             onClick={() => setActiveTab('notifications')}
             className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
               activeTab === 'notifications'
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}
           >
             <Bell size={18} className="mr-2" />
@@ -264,8 +260,8 @@ const CommunicationSystem = () => {
             onClick={() => setActiveTab('project-chat')}
             className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
               activeTab === 'project-chat'
-                ? 'bg-blue-500 text-white'
-                : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                ? 'bg-gray-900 text-white'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
             }`}
           >
             <MessageSquare size={18} className="mr-2" />
@@ -275,20 +271,20 @@ const CommunicationSystem = () => {
       </div>
 
       {/* Main Content */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl overflow-hidden">
+      <div className="card overflow-hidden">
         {activeTab === 'chats' && (
           <div className="flex h-96">
             {/* Chat List */}
-            <div className="w-1/3 border-r border-gray-700">
-              <div className="p-4 border-b border-gray-700">
+            <div className="w-1/3 border-r border-gray-200">
+              <div className="p-4 border-b border-gray-200">
                 <div className="relative">
-                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                   <input
                     type="text"
                     placeholder="Search chats..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-gray-400 transition-colors"
                   />
                 </div>
               </div>
@@ -297,8 +293,8 @@ const CommunicationSystem = () => {
                   <div
                     key={chat.id}
                     onClick={() => setSelectedChat(chat)}
-                    className={`p-4 border-b border-gray-700/50 cursor-pointer hover:bg-gray-700/30 transition-colors ${
-                      selectedChat?.id === chat.id ? 'bg-gray-700/50' : ''
+                    className={`p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${
+                      selectedChat?.id === chat.id ? 'bg-gray-50' : ''
                     }`}
                   >
                     <div className="flex items-center space-x-3">
@@ -307,20 +303,20 @@ const CommunicationSystem = () => {
                           <User size={20} className="text-white" />
                         </div>
                         {chat.isOnline && (
-                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-gray-800"></div>
+                          <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <p className="text-white font-medium truncate">{chat.name}</p>
-                          <span className="text-gray-400 text-xs">
+                          <p className="text-gray-900 font-medium truncate">{chat.name}</p>
+                          <span className="text-gray-500 text-xs">
                             {chat.lastMessageTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </span>
                         </div>
-                        <p className="text-gray-400 text-sm truncate">{chat.lastMessage}</p>
+                        <p className="text-gray-600 text-sm truncate">{chat.lastMessage}</p>
                       </div>
                       {chat.unreadCount > 0 && (
-                        <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        <span className="bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                           {chat.unreadCount}
                         </span>
                       )}
@@ -335,31 +331,31 @@ const CommunicationSystem = () => {
               {selectedChat ? (
                 <>
                   {/* Chat Header */}
-                  <div className="p-4 border-b border-gray-700 flex items-center justify-between">
+                  <div className="p-4 border-b border-gray-200 flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="relative">
                         <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
                           <User size={16} className="text-white" />
                         </div>
                         {selectedChat.isOnline && (
-                          <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-green-400 rounded-full border border-gray-800"></div>
+                          <div className="absolute -bottom-1 -right-1 w-2 h-2 bg-green-500 rounded-full border border-white"></div>
                         )}
                       </div>
                       <div>
-                        <p className="text-white font-medium">{selectedChat.name}</p>
-                        <p className="text-gray-400 text-sm">
+                        <p className="text-gray-900 font-medium">{selectedChat.name}</p>
+                        <p className="text-gray-500 text-sm">
                           {selectedChat.isOnline ? 'Online' : 'Offline'}
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 text-gray-400 hover:text-white">
+                      <button className="p-2 text-gray-500 hover:text-gray-900">
                         <Phone size={16} />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-white">
+                      <button className="p-2 text-gray-500 hover:text-gray-900">
                         <Video size={16} />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-white">
+                      <button className="p-2 text-gray-500 hover:text-gray-900">
                         <MoreHorizontal size={16} />
                       </button>
                     </div>
@@ -375,13 +371,13 @@ const CommunicationSystem = () => {
                         <div
                           className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                             msg.sender === user?.name
-                              ? 'bg-blue-500 text-white'
-                              : 'bg-gray-700 text-white'
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-gray-100 text-gray-900'
                           }`}
                         >
                           <p className="text-sm">{msg.content}</p>
                           <p className={`text-xs mt-1 ${
-                            msg.sender === user?.name ? 'text-blue-100' : 'text-gray-400'
+                            msg.sender === user?.name ? 'text-blue-100' : 'text-gray-600'
                           }`}>
                             {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </p>
@@ -391,12 +387,12 @@ const CommunicationSystem = () => {
                   </div>
 
                   {/* Message Input */}
-                  <div className="p-4 border-t border-gray-700">
+                  <div className="p-4 border-t border-gray-200">
                     <div className="flex items-center space-x-2">
-                      <button className="p-2 text-gray-400 hover:text-white">
+                      <button className="p-2 text-gray-500 hover:text-gray-900">
                         <Paperclip size={20} />
                       </button>
-                      <button className="p-2 text-gray-400 hover:text-white">
+                      <button className="p-2 text-gray-500 hover:text-gray-900">
                         <Smile size={20} />
                       </button>
                       <input
@@ -405,11 +401,11 @@ const CommunicationSystem = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                         placeholder="Type a message..."
-                        className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                        className="flex-1 px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-gray-400 transition-colors"
                       />
                       <button
                         onClick={sendMessage}
-                        className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                        className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                       >
                         <Send size={20} />
                       </button>
@@ -420,8 +416,8 @@ const CommunicationSystem = () => {
                 <div className="flex-1 flex items-center justify-center">
                   <div className="text-center">
                     <MessageSquare size={48} className="text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-lg font-semibold text-white mb-2">Select a chat</h3>
-                    <p className="text-gray-400">Choose a conversation to start messaging</p>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Select a chat</h3>
+                    <p className="text-gray-600">Choose a conversation to start messaging</p>
                   </div>
                 </div>
               )}
@@ -432,12 +428,12 @@ const CommunicationSystem = () => {
         {activeTab === 'notifications' && (
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-white">Notifications</h3>
+              <h3 className="text-xl font-bold text-gray-900">Notifications</h3>
               <div className="flex items-center space-x-2">
-                <button className="p-2 text-gray-400 hover:text-white">
+                <button className="p-2 text-gray-500 hover:text-gray-900">
                   <Filter size={16} />
                 </button>
-                <button className="p-2 text-gray-400 hover:text-white">
+                <button className="p-2 text-gray-500 hover:text-gray-900">
                   <Archive size={16} />
                 </button>
               </div>
@@ -447,7 +443,7 @@ const CommunicationSystem = () => {
                 <div
                   key={notification.id}
                   className={`p-4 rounded-lg border ${
-                    notification.isRead ? 'bg-gray-700/30 border-gray-600' : 'bg-blue-500/10 border-blue-500/20'
+                    notification.isRead ? 'bg-gray-50 border-gray-200' : 'bg-blue-50 border-blue-200'
                   }`}
                 >
                   <div className="flex items-start space-x-3">
@@ -456,18 +452,18 @@ const CommunicationSystem = () => {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between">
-                        <h4 className="text-white font-medium">{notification.title}</h4>
-                        <span className="text-gray-400 text-sm">
+                        <h4 className="text-gray-900 font-medium">{notification.title}</h4>
+                        <span className="text-gray-500 text-sm">
                           {notification.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
-                      <p className="text-gray-400 text-sm mt-1">{notification.message}</p>
+                      <p className="text-gray-600 text-sm mt-1">{notification.message}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       {!notification.isRead && (
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                       )}
-                      <button className="p-1 text-gray-400 hover:text-white">
+                      <button className="p-1 text-gray-500 hover:text-gray-900">
                         <MoreHorizontal size={16} />
                       </button>
                     </div>
@@ -482,8 +478,8 @@ const CommunicationSystem = () => {
           <div className="p-6">
             <div className="text-center py-12">
               <MessageSquare size={48} className="text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-semibold text-white mb-2">Project Chat</h4>
-              <p className="text-gray-400">Project-specific communication channels will be implemented here</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Project Chat</h4>
+              <p className="text-gray-600">Project-specific communication channels will be implemented here</p>
             </div>
           </div>
         )}

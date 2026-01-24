@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Pricing from '../Pricing';
-import { Zap, Rocket, Crown, Calculator, Phone } from 'lucide-react';
+import { Zap, Rocket, Crown } from 'lucide-react';
 
 /**
  * Test suite for the Pricing component
@@ -85,7 +85,7 @@ describe('Pricing Component', () => {
 
   // Test case: Custom Estimate Form
   describe('Custom Estimate Form', () => {
-    let originalConsoleLog: any;
+    let originalConsoleLog: typeof console.log;
     
     beforeEach(() => {
       // Store the original console.log

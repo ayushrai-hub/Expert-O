@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import { AuthProvider } from '../../../contexts/AuthContext';
 import ProtectedRoute from '../ProtectedRoute';
 import { Role } from '../../../types/auth';

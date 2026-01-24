@@ -1,26 +1,20 @@
 import React, { useState } from 'react';
-import { 
-  Users, 
-  BarChart3, 
-  FileText, 
-  Settings, 
-  Plus, 
-  Search, 
-  Filter, 
-  Edit, 
-  Trash2, 
+import {
+  Users,
+  BarChart3,
+  FileText,
+  Settings,
+  Plus,
+  Search,
+  Edit,
+  Trash2,
   Eye,
   MoreHorizontal,
   TrendingUp,
-  TrendingDown,
   DollarSign,
-  Calendar,
   CheckCircle,
-  AlertCircle,
-  Clock,
   UserPlus,
-  Project,
-  MessageSquare
+  FolderOpen
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Role } from '../../types/auth';
@@ -46,7 +40,7 @@ interface AnalyticsData {
 }
 
 const AdminDashboard = () => {
-  const { user } = useAuth();
+  useAuth(); // Get auth context but user not needed in this component
   const [activeTab, setActiveTab] = useState<'overview' | 'users' | 'projects' | 'content' | 'analytics'>('overview');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -61,7 +55,7 @@ const AdminDashboard = () => {
   };
 
   // Mock users data
-  const [users, setUsers] = useState<User[]>([
+  const [users] = useState<User[]>([
     {
       id: '1',
       name: 'John Client',
@@ -112,7 +106,7 @@ const AdminDashboard = () => {
   const tabs = [
     { id: 'overview', label: 'Overview', icon: BarChart3 },
     { id: 'users', label: 'User Management', icon: Users },
-    { id: 'projects', label: 'Projects', icon: Project },
+    { id: 'projects', label: 'Projects', icon: FolderOpen },
     { id: 'content', label: 'Content', icon: FileText },
     { id: 'analytics', label: 'Analytics', icon: TrendingUp }
   ];
@@ -120,26 +114,26 @@ const AdminDashboard = () => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
-        return 'text-green-400 bg-green-400/10 border-green-400/20';
+        return 'text-green-600 bg-green-100 border-green-200';
       case 'inactive':
-        return 'text-red-400 bg-red-400/10 border-red-400/20';
+        return 'text-red-600 bg-red-100 border-red-200';
       case 'pending':
-        return 'text-yellow-400 bg-yellow-400/10 border-yellow-400/20';
+        return 'text-yellow-600 bg-yellow-100 border-yellow-200';
       default:
-        return 'text-gray-400 bg-gray-400/10 border-gray-400/20';
+        return 'text-gray-600 bg-gray-100 border-gray-200';
     }
   };
 
   const getRoleColor = (role: Role) => {
     switch (role) {
       case Role.ADMIN:
-        return 'text-purple-400 bg-purple-400/10';
+        return 'text-purple-600 bg-purple-100';
       case Role.CLIENT:
-        return 'text-blue-400 bg-blue-400/10';
+        return 'text-blue-600 bg-blue-100';
       case Role.TALENT:
-        return 'text-green-400 bg-green-400/10';
+        return 'text-green-600 bg-green-100';
       default:
-        return 'text-gray-400 bg-gray-400/10';
+        return 'text-gray-600 bg-gray-100';
     }
   };
 
@@ -148,11 +142,11 @@ const AdminDashboard = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-white">Admin Dashboard</h1>
-          <p className="text-gray-400 mt-1">Manage users, projects, and platform analytics</p>
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-600 mt-1">Manage users, projects, and platform analytics</p>
         </div>
         <div className="flex items-center space-x-4">
-          <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+          <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
             <Settings size={20} className="mr-2" />
             Settings
           </button>
@@ -162,54 +156,54 @@ const AdminDashboard = () => {
       {/* Analytics Cards */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+          <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-medium">Total Users</p>
-                <p className="text-2xl font-bold text-white mt-1">{analytics.totalUsers.toLocaleString()}</p>
-                <p className="text-green-400 text-sm mt-1">+{analytics.growthRate}% from last month</p>
+                <p className="text-gray-600 text-sm font-medium">Total Users</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{analytics.totalUsers.toLocaleString()}</p>
+                <p className="text-green-600 text-sm mt-1">+{analytics.growthRate}% from last month</p>
               </div>
-              <div className="p-3 bg-blue-500/20 rounded-lg">
-                <Users size={24} className="text-blue-400" />
+              <div className="p-3 bg-blue-100 rounded-lg">
+                <Users size={24} className="text-blue-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+          <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-medium">Active Users</p>
-                <p className="text-2xl font-bold text-white mt-1">{analytics.activeUsers.toLocaleString()}</p>
-                <p className="text-green-400 text-sm mt-1">+12% from last week</p>
+                <p className="text-gray-600 text-sm font-medium">Active Users</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{analytics.activeUsers.toLocaleString()}</p>
+                <p className="text-green-600 text-sm mt-1">+12% from last week</p>
               </div>
-              <div className="p-3 bg-green-500/20 rounded-lg">
-                <CheckCircle size={24} className="text-green-400" />
+              <div className="p-3 bg-green-100 rounded-lg">
+                <CheckCircle size={24} className="text-green-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+          <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-medium">Total Projects</p>
-                <p className="text-2xl font-bold text-white mt-1">{analytics.totalProjects}</p>
-                <p className="text-blue-400 text-sm mt-1">{analytics.completedProjects} completed</p>
+                <p className="text-gray-600 text-sm font-medium">Total Projects</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{analytics.totalProjects}</p>
+                <p className="text-blue-600 text-sm mt-1">{analytics.completedProjects} completed</p>
               </div>
-              <div className="p-3 bg-purple-500/20 rounded-lg">
-                <Project size={24} className="text-purple-400" />
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <FolderOpen size={24} className="text-purple-600" />
               </div>
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+          <div className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-gray-400 text-sm font-medium">Revenue</p>
-                <p className="text-2xl font-bold text-white mt-1">{analytics.revenue}</p>
-                <p className="text-green-400 text-sm mt-1">+18% from last month</p>
+                <p className="text-gray-600 text-sm font-medium">Revenue</p>
+                <p className="text-2xl font-bold text-gray-900 mt-1">{analytics.revenue}</p>
+                <p className="text-green-600 text-sm mt-1">+18% from last month</p>
               </div>
-              <div className="p-3 bg-yellow-500/20 rounded-lg">
-                <DollarSign size={24} className="text-yellow-400" />
+              <div className="p-3 bg-yellow-100 rounded-lg">
+                <DollarSign size={24} className="text-yellow-600" />
               </div>
             </div>
           </div>
@@ -217,16 +211,16 @@ const AdminDashboard = () => {
       )}
 
       {/* Tabs */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-2">
+      <div className="card p-2">
         <div className="flex space-x-1">
           {tabs.map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id as 'overview' | 'users' | 'projects' | 'content' | 'analytics')}
               className={`flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? 'bg-blue-500 text-white'
-                  : 'text-gray-400 hover:text-white hover:bg-gray-700'
+                  ? 'bg-gray-900 text-white'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
               }`}
             >
               <tab.icon size={18} className="mr-2" />
@@ -237,27 +231,27 @@ const AdminDashboard = () => {
       </div>
 
       {/* Tab Content */}
-      <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur border border-gray-700 rounded-xl p-6">
+      <div className="card">
         {activeTab === 'users' && (
           <div className="space-y-6">
             {/* User Management Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h3 className="text-xl font-bold text-white">User Management</h3>
-                <p className="text-gray-400 text-sm">Manage platform users and their permissions</p>
+                <h3 className="text-xl font-bold text-gray-900">User Management</h3>
+                <p className="text-gray-600 text-sm">Manage platform users and their permissions</p>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="relative">
-                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Search size={20} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
                   <input
                     type="text"
                     placeholder="Search users..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                    className="pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-gray-400 transition-colors"
                   />
                 </div>
-                <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+                <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
                   <UserPlus size={16} className="mr-2" />
                   Add User
                 </button>
@@ -268,23 +262,23 @@ const AdminDashboard = () => {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">User</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Role</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Status</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Projects</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Joined</th>
-                    <th className="text-left py-3 px-4 text-gray-400 font-medium">Last Active</th>
-                    <th className="text-right py-3 px-4 text-gray-400 font-medium">Actions</th>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">User</th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">Role</th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">Status</th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">Projects</th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">Joined</th>
+                    <th className="text-left py-3 px-4 text-gray-600 font-medium">Last Active</th>
+                    <th className="text-right py-3 px-4 text-gray-600 font-medium">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredUsers.map((user) => (
-                    <tr key={user.id} className="border-b border-gray-700/50 hover:bg-gray-700/30">
+                    <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
                       <td className="py-4 px-4">
                         <div>
-                          <p className="text-white font-medium">{user.name}</p>
-                          <p className="text-gray-400 text-sm">{user.email}</p>
+                          <p className="text-gray-900 font-medium">{user.name}</p>
+                          <p className="text-gray-600 text-sm">{user.email}</p>
                         </div>
                       </td>
                       <td className="py-4 px-4">
@@ -298,26 +292,26 @@ const AdminDashboard = () => {
                         </span>
                       </td>
                       <td className="py-4 px-4">
-                        <span className="text-white">{user.projectsCount}</span>
+                        <span className="text-gray-900">{user.projectsCount}</span>
                       </td>
                       <td className="py-4 px-4">
-                        <span className="text-gray-400 text-sm">{user.joinedAt.toLocaleDateString()}</span>
+                        <span className="text-gray-600 text-sm">{user.joinedAt.toLocaleDateString()}</span>
                       </td>
                       <td className="py-4 px-4">
-                        <span className="text-gray-400 text-sm">{user.lastActive.toLocaleDateString()}</span>
+                        <span className="text-gray-600 text-sm">{user.lastActive.toLocaleDateString()}</span>
                       </td>
                       <td className="py-4 px-4 text-right">
                         <div className="flex items-center justify-end space-x-2">
-                          <button className="p-1 text-gray-400 hover:text-white">
+                          <button className="p-1 text-gray-500 hover:text-gray-900">
                             <Eye size={16} />
                           </button>
-                          <button className="p-1 text-gray-400 hover:text-white">
+                          <button className="p-1 text-gray-500 hover:text-gray-900">
                             <Edit size={16} />
                           </button>
-                          <button className="p-1 text-red-400 hover:text-red-300">
+                          <button className="p-1 text-red-600 hover:text-red-700">
                             <Trash2 size={16} />
                           </button>
-                          <button className="p-1 text-gray-400 hover:text-white">
+                          <button className="p-1 text-gray-500 hover:text-gray-900">
                             <MoreHorizontal size={16} />
                           </button>
                         </div>
@@ -334,18 +328,18 @@ const AdminDashboard = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white">Project Management</h3>
-                <p className="text-gray-400 text-sm">Monitor and manage all platform projects</p>
+                <h3 className="text-xl font-bold text-gray-900">Project Management</h3>
+                <p className="text-gray-600 text-sm">Monitor and manage all platform projects</p>
               </div>
-              <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+              <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
                 <Plus size={16} className="mr-2" />
                 Create Project
               </button>
             </div>
             <div className="text-center py-12">
-              <Project size={48} className="text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-semibold text-white mb-2">Project Management</h4>
-              <p className="text-gray-400">Project management interface will be implemented here</p>
+              <FolderOpen size={48} className="text-gray-400 mx-auto mb-4" />
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Project Management</h4>
+              <p className="text-gray-600">Project management interface will be implemented here</p>
             </div>
           </div>
         )}
@@ -354,18 +348,18 @@ const AdminDashboard = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white">Content Management</h3>
-                <p className="text-gray-400 text-sm">Manage blog posts, portfolio items, and platform content</p>
+                <h3 className="text-xl font-bold text-gray-900">Content Management</h3>
+                <p className="text-gray-600 text-sm">Manage blog posts, portfolio items, and platform content</p>
               </div>
-              <button className="flex items-center bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300">
+              <button className="flex items-center bg-gray-900 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300">
                 <Plus size={16} className="mr-2" />
                 Add Content
               </button>
             </div>
             <div className="text-center py-12">
               <FileText size={48} className="text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-semibold text-white mb-2">Content Management</h4>
-              <p className="text-gray-400">Content management interface will be implemented here</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Content Management</h4>
+              <p className="text-gray-600">Content management interface will be implemented here</p>
             </div>
           </div>
         )}
@@ -374,14 +368,14 @@ const AdminDashboard = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-xl font-bold text-white">Analytics Dashboard</h3>
-                <p className="text-gray-400 text-sm">Detailed platform analytics and insights</p>
+                <h3 className="text-xl font-bold text-gray-900">Analytics Dashboard</h3>
+                <p className="text-gray-600 text-sm">Detailed platform analytics and insights</p>
               </div>
             </div>
             <div className="text-center py-12">
               <BarChart3 size={48} className="text-gray-400 mx-auto mb-4" />
-              <h4 className="text-lg font-semibold text-white mb-2">Analytics Dashboard</h4>
-              <p className="text-gray-400">Advanced analytics and charts will be implemented here</p>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Analytics Dashboard</h4>
+              <p className="text-gray-600">Advanced analytics and charts will be implemented here</p>
             </div>
           </div>
         )}
