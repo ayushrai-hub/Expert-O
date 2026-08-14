@@ -6,12 +6,12 @@
 ## ✅ Completed
 
 ### 1. Core Theme Infrastructure
-- **ThemeContext** (`src/contexts/ThemeContext.tsx`)
+- **ThemeContext** (`src/shared/contexts/ThemeContext.tsx`)
   - State management for light/dark mode
   - localStorage persistence
   - System preference detection
   
-- **ThemeToggle Component** (`src/components/ThemeToggle.tsx`)
+- **ThemeToggle Component** (`src/shared/ui/ThemeToggle.tsx`)
   - Interactive theme switcher with icons
   - Accessible button with ARIA labels
 

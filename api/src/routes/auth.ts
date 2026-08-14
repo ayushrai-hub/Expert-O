@@ -7,170 +7,154 @@ import { sanitizeInput } from '../utils/validation';
 const router = express.Router();
 const userService = new UserService();
 
-// Rate limiting for auth endpoints
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // limit each IP to 5 requests per windowMs
+  windowMs: 15 * 60 * 1000,
+  max: 10,
   message: {
-    error: 'Too many authentication attempts, please try again later.'
+    success: false,
+    message: 'Too many authentication attempts, please try again later.',
   },
-  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  standardHeaders: true,
+  legacyHeaders: false,
 });
 
-// Apply rate limiting to all auth routes
-router.use(authLimiter);
-
-// Register route
-router.post('/register', async (req, res) => {
+router.post('/register', authLimiter, async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
 
-    // Sanitize inputs
     const sanitizedData = {
       name: sanitizeInput(name),
       email: sanitizeInput(email.toLowerCase()),
       password,
-      role
+      role,
     };
 
     const result = await userService.register(sanitizedData);
-    
+
     res.status(201).json({
       success: true,
       message: 'User registered successfully',
       data: {
         user: result.user,
-        token: result.token
-      }
+        token: result.token,
+      },
     });
-  } catch (error: any) {
-    console.error('Registration error:', error);
-    res.status(400).json({
-      success: false,
-      message: error.message || 'Registration failed'
-    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Registration failed';
+    console.error('Registration error:', message);
+    res.status(400).json({ success: false, message });
   }
 });
 
-// Login route
-router.post('/login', async (req, res) => {
+router.post('/login', authLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
 
-    // Sanitize inputs
     const sanitizedData = {
       email: sanitizeInput(email.toLowerCase()),
-      password
+      password,
     };
 
     const result = await userService.login(sanitizedData);
-    
+
     res.json({
       success: true,
       message: 'Login successful',
       data: {
         user: result.user,
-        token: result.token
-      }
+        token: result.token,
+      },
     });
-  } catch (error: any) {
-    console.error('Login error:', error);
-    res.status(401).json({
-      success: false,
-      message: error.message || 'Login failed'
-    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Login failed';
+    console.error('Login error:', message);
+    res.status(401).json({ success: false, message });
   }
 });
 
-// Forgot password route
-router.post('/forgot-password', async (req, res) => {
+router.post('/forgot-password', authLimiter, async (req, res) => {
   try {
     const { email } = req.body;
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, message: 'Email is required' });
+    }
 
-    // Sanitize input
     const sanitizedEmail = sanitizeInput(email.toLowerCase());
-
     await userService.forgotPassword(sanitizedEmail);
-    
+
     res.json({
       success: true,
-      message: 'If an account with that email exists, a password reset link has been sent.'
+      message: 'If an account with that email exists, a password reset link has been sent.',
     });
-  } catch (error: any) {
-    console.error('Forgot password error:', error);
-    res.status(400).json({
-      success: false,
-      message: error.message || 'Failed to process password reset request'
-    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to process password reset request';
+    console.error('Forgot password error:', message);
+    res.status(400).json({ success: false, message });
   }
 });
 
-// Reset password route
-router.post('/reset-password', async (req, res) => {
+router.post('/reset-password', authLimiter, async (req, res) => {
   try {
     const { token, password } = req.body;
-
     await userService.resetPassword(token, password);
-    
+
     res.json({
       success: true,
-      message: 'Password reset successful'
+      message: 'Password reset successful',
     });
-  } catch (error: any) {
-    console.error('Reset password error:', error);
-    res.status(400).json({
-      success: false,
-      message: error.message || 'Failed to reset password'
-    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to reset password';
+    console.error('Reset password error:', message);
+    res.status(400).json({ success: false, message });
   }
 });
 
-// Verify token route
+// verify-token is not rate-limited with the aggressive auth limiter (used on every page load)
 router.get('/verify-token', async (req, res) => {
   try {
     const authHeader = req.headers.authorization;
-    
+
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return res.status(401).json({
         success: false,
-        message: 'No token provided'
+        message: 'No token provided',
       });
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-    
+    const token = authHeader.substring(7);
+
     try {
       const payload = AuthService.verifyToken(token);
-      
-      // Get user details
       const user = await userService.getUserById(payload.userId);
-      
+
       if (!user) {
         return res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'User not found',
         });
       }
 
       res.json({
         success: true,
-        data: {
-          user,
-          token
-        }
+        data: { user, token },
       });
-    } catch (tokenError) {
+    } catch {
       return res.status(401).json({
         success: false,
-        message: 'Invalid or expired token'
+        message: 'Invalid or expired token',
       });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Verify token error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to verify token'
+      message: 'Failed to verify token',
     });
   }
 });

@@ -34,7 +34,7 @@ export const registerSchema = Joi.object({
     }),
   
   role: Joi.string()
-    .valid('ADMIN', 'CLIENT', 'TALENT')
+    .valid('CLIENT', 'TALENT')
     .required()
     .messages({
       'any.only': 'Please select a valid role',

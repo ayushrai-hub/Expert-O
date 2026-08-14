@@ -187,7 +187,7 @@ export class UserService {
 
           try {
             // Generate reset token
-            const resetToken = AuthService.generateResetToken();
+            const resetToken = AuthService.generateResetToken(email);
 
             // Store reset token
             db.run(
@@ -231,8 +231,8 @@ export class UserService {
     return new Promise((resolve, reject) => {
       const db = this.getDb();
 
-      // Verify token
-      if (!AuthService.verifyResetToken(token)) {
+      const resetCheck = AuthService.verifyResetToken(token);
+      if (!resetCheck.valid) {
         return reject(new Error('Invalid or expired reset token'));
       }
 

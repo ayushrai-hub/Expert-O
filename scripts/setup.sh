@@ -1,56 +1,43 @@
 #!/bin/bash
-
-# Expert-O Project Setup Script
-# This script sets up the development environment for Expert-O
+# Expert-O development setup — frontend + API
 
 set -e
 
-echo "🚀 Setting up Expert-O development environment..."
+echo "Setting up Expert-O..."
 
-# Check if Node.js is installed
 if ! command -v node &> /dev/null; then
-    echo "❌ Node.js is not installed. Please install Node.js 18+ and try again."
-    exit 1
+  echo "Node.js is required (18+)."
+  exit 1
 fi
 
-# Check Node.js version
-NODE_VERSION=$(node -v | cut -d'v' -f2 | cut -d'.' -f1)
-if [ "$NODE_VERSION" -lt 18 ]; then
-    echo "❌ Node.js version $NODE_VERSION is not supported. Please upgrade to Node.js 18 or higher."
-    exit 1
+NODE_MAJOR=$(node -v | sed 's/v\([0-9]*\).*/\1/')
+if [ "$NODE_MAJOR" -lt 18 ]; then
+  echo "Node.js 18+ required (found $(node -v))."
+  exit 1
 fi
 
-echo "✅ Node.js version: $(node -v)"
+echo "Node $(node -v) | npm $(npm -v)"
 
-# Check if npm is installed
-if ! command -v npm &> /dev/null; then
-    echo "❌ npm is not installed. Please install npm and try again."
-    exit 1
-fi
-
-echo "✅ npm version: $(npm -v)"
-
-# Install dependencies
-echo "📦 Installing dependencies..."
+echo "Installing frontend dependencies..."
 npm install
 
-# Create environment file if it doesn't exist
-if [ ! -f ".env.local" ]; then
-    echo "📝 Creating .env.local from template..."
-    cp .env.example .env.local
-    echo "⚠️  Please edit .env.local with your configuration"
+echo "Installing API dependencies..."
+(cd api && npm install)
+
+if [ ! -f .env.local ]; then
+  cp .env.example .env.local
+  echo "Created .env.local from .env.example"
 fi
 
-# Run initial checks
-echo "🔍 Running initial checks..."
-npm run lint
-npm run type-check
+if [ ! -f api/.env ]; then
+  cp api/.env.example api/.env
+  echo "Created api/.env from api/.env.example"
+fi
 
-echo "✅ Setup complete!"
+echo "Setup complete."
 echo ""
-echo "Next steps:"
-echo "1. Edit .env.local with your configuration"
-echo "2. Run 'npm run dev' to start the development server"
-echo "3. Run 'npm test' to run the test suite"
+echo "Start servers:"
+echo "  npm run dev        # frontend → http://localhost:5173"
+echo "  npm run dev:api    # API      → http://localhost:3001"
 echo ""
-echo "Happy coding! 🎉"
+echo "Docs: docs/LOCAL_DEVELOPMENT.md"
